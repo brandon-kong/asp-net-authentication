@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using project.Data;
+using project.Models.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
+
+builder.Services.AddCors(options => {
+    options.AddPolicy("CorsPolicy", policy => {
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+    });
+});
 
 builder.Services.AddDbContext<DataContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -28,5 +35,9 @@ app.MapControllers();
 app.UseRouting();
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.UseCors("CorsPolicy");
 
 app.Run();

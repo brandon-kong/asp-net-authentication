@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using project.Data;
+using project.Interfaces.Repositories;
 
 namespace project.Models.Repositories {
     
-    public class TodoRepository {
+    public class TodoRepository : ITodoRepository {
 
         private static DataContext _context;
 
@@ -11,20 +12,20 @@ namespace project.Models.Repositories {
             _context = context;
         }
 
-        public static bool TodoExists (int id) {
+        public  bool TodoExists (int id) {
             var todo = _context.Todo.Find(id);
             return todo != null;
         }
 
-        public static Todo? GetTodoById(int id) {
+        public  Todo? GetTodoById(int id) {
             return _context.Todo.Find(id);
         }
 
-        public static List<Todo> GetTodos() {
+        public  List<Todo> GetTodos() {
             return _context.Todo.ToList();
         }
 
-        public static void AddTodo(Todo todo) {
+        public  void AddTodo(Todo todo) {
             _context.Todo.Add(todo);
             _context.SaveChanges();
         }

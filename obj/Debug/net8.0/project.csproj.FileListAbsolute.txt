@@ -165,3 +165,7 @@
 /Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Npgsql.dll
 /Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.Design.dll
+/Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Client/.eslintrc.json
+/Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Client/package-lock.json
+/Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Client/package.json
+/Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Client/tsconfig.json

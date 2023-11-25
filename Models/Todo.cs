@@ -5,6 +5,7 @@ namespace project.Models {
     public class Todo {
 
         [Required]
+        [Key]
         public int TodoId { get; set; }
 
         [Required]
