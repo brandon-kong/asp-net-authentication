@@ -100,7 +100,6 @@ export default function Home() {
             <pre>{JSON.stringify(todo)}</pre>
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-col items-center justify-between">
-                <Image src="/todo.png" alt="Todo" width={50} height={50} />
                 <span className="text-2xl font-bold">{todo.id}</span>
               </div>
               <div className="flex flex-col items-center justify-between">

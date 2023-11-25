@@ -19,7 +19,7 @@ namespace project.Controllers {
 
         [HttpGet]
         public IActionResult GetTodo() {
-            return Ok(dataContext.Todo.OrderBy(todo => todo.TodoPriority).ToList());
+            return Ok(dataContext.Todo.OrderBy(todo => todo.TodoId).ToList());
         }
 
 
