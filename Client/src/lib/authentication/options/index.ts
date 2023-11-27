@@ -31,7 +31,7 @@ const handler : NextAuthOptions = {
     ],
 
     pages: {
-        signIn: "/login",
+        //signIn: "/login",
         newUser: "/register"
     },
 

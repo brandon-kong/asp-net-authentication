@@ -14,7 +14,7 @@ export default function Home() {
   const [todoBody, setTodoBody] = useState('');
   const [todoPriority, setTodoPriority] = useState('');
 
-  const { isAuthenticated, email, loading } = useAuth();
+  const { isAuthenticated, email, loading, signOut } = useAuth();
 
   const { isPending, error, data, refetch } = useQuery({
     queryKey: ['backendCall'],
@@ -109,6 +109,10 @@ export default function Home() {
           <div className="flex flex-col items-center justify-between">
             <span className="text-2xl font-bold">Authenticated</span>
             <span className="text-2xl font-bold">{email}</span>
+            <Button onClick={() => signOut({
+              redirect: false,
+              callbackUrl: '/'
+            })}>Logout</Button>
           </div>
         ) : null}
         <FloatingInput label="Todo Body" value={todoBody} onChange={(e) => setTodoBody(e.target.value)} />
