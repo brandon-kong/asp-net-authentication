@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Data;
 using project.Filters;
@@ -22,7 +23,8 @@ namespace project.Controllers {
             return Ok(dataContext.Todo.OrderBy(todo => todo.TodoId).ToList());
         }
 
-
+        
+        [Authorize(AuthenticationSchemes = "Identity.Application")]
         [HttpGet("{id}")]
         [Todo_ValidateTodoIdFilter]
         public IActionResult GetTodoById(int id) {
@@ -37,6 +39,7 @@ namespace project.Controllers {
 
 
         [HttpPost]
+        
         public IActionResult CreateTodo([FromBody] Todo todo) {
 
             bool todoExists = dataContext.Todo.Find(todo.TodoId) != null;

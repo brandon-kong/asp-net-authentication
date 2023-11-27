@@ -29,13 +29,6 @@ namespace project
 
             //services.AddScoped<ITodoRepository, TodoRepository>();
 
-            // how do i inject the datacontext into the repository?
-
-            services.AddScoped<ITodoRepository, TodoRepository>(provider => {
-                 var dataContext = provider.GetService<DataContext>();
-                 return new TodoRepository(dataContext ?? throw new System.ArgumentNullException(nameof(dataContext)));
-             });
-
             services.AddControllers();
         }
 

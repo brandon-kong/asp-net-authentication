@@ -169,3 +169,5 @@
 /Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Client/package-lock.json
 /Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Client/package.json
 /Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Client/tsconfig.json
+/Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/brandonkong/Desktop/PersonalProjects/Authentication/project/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

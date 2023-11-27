@@ -1,7 +1,9 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using project.Authentication;
 using project.Data;
 using project.Models.Repositories;
 
@@ -25,17 +27,30 @@ builder.Services.AddDbContext<DataContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddAuthentication(options => {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    
-}).AddJwtBearer(options => {
-    options.TokenValidationParameters = new TokenValidationParameters {
-        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-        ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
-    }
-});
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    /*.AddCookie("Identity.Bearer", options => {
+        options.Cookie.Name = "IdentityServer.Cookie";
+        options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+    })
+    */
+    .AddIdentityCookies();
+
+builder.Services.AddAuthorizationBuilder();
+
+builder.Services.AddIdentityCore<UserModel>(options => {
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 4;
+    options.Password.RequiredUniqueChars = 0;
+})
+    //.AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>()
+    //.AddSignInManager<SignInManager<UserModel>>()
+    //.AddDefaultTokenProviders()
+    .AddApiEndpoints()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -52,7 +67,15 @@ app.UseRouting();
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+
+
+app.MapIdentityApi<UserModel>();
 
 app.UseCors("CorsPolicy");
 
