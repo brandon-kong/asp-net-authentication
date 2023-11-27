@@ -27,12 +27,23 @@ builder.Services.AddDbContext<DataContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+// Use JWT Bearer Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     /*.AddCookie("Identity.Bearer", options => {
         options.Cookie.Name = "IdentityServer.Cookie";
         options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
     })
     */
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+        };
+    })
     .AddIdentityCookies();
 
 builder.Services.AddAuthorizationBuilder();
@@ -78,5 +89,6 @@ app.UseAuthorization();
 app.MapIdentityApi<UserModel>();
 
 app.UseCors("CorsPolicy");
+
 
 app.Run();

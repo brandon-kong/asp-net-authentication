@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Data;
@@ -24,7 +25,7 @@ namespace project.Controllers {
         }
 
         
-        [Authorize(AuthenticationSchemes = "Identity.Application")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id}")]
         [Todo_ValidateTodoIdFilter]
         public IActionResult GetTodoById(int id) {
