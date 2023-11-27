@@ -29,7 +29,9 @@ builder.Services.AddDbContext<DataContext>(options => {
 
 // Use JWT Bearer Authentication
 builder.Services.AddAuthentication()
-    .AddBearerToken(IdentityConstants.BearerScheme);
+    .AddBearerToken(IdentityConstants.BearerScheme)
+    .AddIdentityCookies();
+    
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("ApiScope", policy => {
