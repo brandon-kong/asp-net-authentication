@@ -74,6 +74,7 @@ namespace project.Controllers {
 
 
         [HttpDelete("{id}")]
+        [Authorize("ApiScope")]
         public IActionResult DeleteTodo(int id) {
             var todo = dataContext.Todo.Find(id);
 

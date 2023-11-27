@@ -21,11 +21,20 @@ export default function Home() {
   })
 
   const deleteTodo = async (id: number) => {
-    await fetch(`http://localhost:5058/api/v1/Todos/${id}`, {
-      method: 'DELETE',
-    })
+    try {
+      const axiosInstance = await getAuthenticatedAxiosInstance();
 
-    refetch();
+      if (!axiosInstance) {
+        throw new Error('Error creating todo');
+      }
+
+      await axiosInstance.delete(`http://localhost:5058/api/v1/Todos/${id}`)
+
+      refetch();
+    }
+    catch(e) {
+      alert('Error deleting todo')
+    }
   }
 
   const updateTodo = async (id: number, {
