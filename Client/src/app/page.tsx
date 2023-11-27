@@ -14,13 +14,13 @@ export default function Home() {
   const { isPending, error, data, refetch } = useQuery({
     queryKey: ['backendCall'],
     queryFn: () =>
-      fetch('http://localhost:5058/api/Todos').then(
+      fetch('http://localhost:5058/api/v1/Todos').then(
         (res) => res.json()
       ),
   })
 
   const deleteTodo = async (id: number) => {
-    await fetch(`http://localhost:5058/api/Todos/${id}`, {
+    await fetch(`http://localhost:5058/api/v1/Todos/${id}`, {
       method: 'DELETE',
     })
 
@@ -34,7 +34,7 @@ export default function Home() {
     TodoBody: string,
     TodoPriority: string
   }) => {
-    await fetch(`http://localhost:5058/api/Todos/${id}`, {
+    await fetch(`http://localhost:5058/api/v1/Todos/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ export default function Home() {
     TodoBody: string,
     TodoPriority: string
   }) => {
-    await fetch(`http://localhost:5058/api/Todos`, {
+    await fetch(`http://localhost:5058/api/v1/Todos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

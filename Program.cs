@@ -28,25 +28,14 @@ builder.Services.AddDbContext<DataContext>(options => {
 });
 
 // Use JWT Bearer Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    /*.AddCookie("Identity.Bearer", options => {
-        options.Cookie.Name = "IdentityServer.Cookie";
-        options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
-    })
-    */
-    .AddJwtBearer(options => {
-        options.TokenValidationParameters = new TokenValidationParameters {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-        };
-    })
-    .AddIdentityCookies();
+builder.Services.AddAuthentication()
+    .AddBearerToken(IdentityConstants.BearerScheme);
 
-builder.Services.AddAuthorizationBuilder();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("ApiScope", policy => {
+        policy.RequireAuthenticatedUser();
+        policy.AddAuthenticationSchemes(IdentityConstants.BearerScheme);
+    });
 
 builder.Services.AddIdentityCore<UserModel>(options => {
     options.Password.RequireDigit = false;
@@ -56,10 +45,7 @@ builder.Services.AddIdentityCore<UserModel>(options => {
     options.Password.RequiredLength = 4;
     options.Password.RequiredUniqueChars = 0;
 })
-    //.AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()
-    //.AddSignInManager<SignInManager<UserModel>>()
-    //.AddDefaultTokenProviders()
     .AddApiEndpoints()
     .AddDefaultTokenProviders();
 
@@ -84,11 +70,12 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+var group = app.MapGroup("/api/v1");
 
-
-app.MapIdentityApi<UserModel>();
+group
+    .MapGroup("/auth")
+    .MapIdentityApi<UserModel>();
 
 app.UseCors("CorsPolicy");
-
 
 app.Run();

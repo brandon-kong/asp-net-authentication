@@ -10,7 +10,7 @@ using project.Models.Repositories;
 namespace project.Controllers {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class TodosController : ControllerBase {
 
         private readonly DataContext dataContext;
@@ -25,7 +25,7 @@ namespace project.Controllers {
         }
 
         
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize("ApiScope")]
         [HttpGet("{id}")]
         [Todo_ValidateTodoIdFilter]
         public IActionResult GetTodoById(int id) {
