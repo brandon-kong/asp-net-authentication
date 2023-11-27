@@ -40,7 +40,7 @@ namespace project.Controllers {
 
 
         [HttpPost]
-        
+        [Authorize("ApiScope")]
         public IActionResult CreateTodo([FromBody] Todo todo) {
 
             bool todoExists = dataContext.Todo.Find(todo.TodoId) != null;

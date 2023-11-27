@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { FloatingInput, Input } from '@/components/input';
 import { Button } from '@/components/button';
+import { getAuthenticatedAxiosInstance } from '@/lib/authentication';
 
 export default function Home() {
   const [todoBody, setTodoBody] = useState('');
@@ -57,18 +58,24 @@ export default function Home() {
     TodoBody: string,
     TodoPriority: string
   }) => {
-    await fetch(`http://localhost:5058/api/v1/Todos`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+
+    try {
+      const axiosInstance = await getAuthenticatedAxiosInstance();
+
+      if (!axiosInstance) {
+        throw new Error('Error creating todo');
+      }
+
+      await axiosInstance.post('http://localhost:5058/api/v1/Todos', {
         TodoBody,
         TodoPriority
       })
-    })
 
-    refetch();
+      refetch();
+    }
+    catch(e) {
+      alert('Error creating todo')
+    }
   }
 
 

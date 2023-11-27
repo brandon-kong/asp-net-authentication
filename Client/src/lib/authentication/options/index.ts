@@ -87,8 +87,6 @@ const handler : NextAuthOptions = {
                 session.user = user
             }
 
-            console.log(user)
-
             return session
         }
     },

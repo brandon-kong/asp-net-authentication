@@ -7,8 +7,6 @@ import { FloatingInput, Input } from "@/components/input";
 import { TypographyH1, TypographyH2, TypographyP } from "@/components/typography";
 import Image from "next/image";
 
-import { login } from "@/lib/authentication";
-
 import { signIn } from "next-auth/react";
 
 export default function LoginPage () {
