@@ -8,9 +8,13 @@ import { FloatingInput, Input } from '@/components/input';
 import { Button } from '@/components/button';
 import { getAuthenticatedAxiosInstance } from '@/lib/authentication';
 
+import { useAuth } from '@/components/providers/AuthProvider';
+
 export default function Home() {
   const [todoBody, setTodoBody] = useState('');
   const [todoPriority, setTodoPriority] = useState('');
+
+  const { isAuthenticated, email, loading } = useAuth();
 
   const { isPending, error, data, refetch } = useQuery({
     queryKey: ['backendCall'],
@@ -101,6 +105,12 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div>
+        {isAuthenticated ? (
+          <div className="flex flex-col items-center justify-between">
+            <span className="text-2xl font-bold">Authenticated</span>
+            <span className="text-2xl font-bold">{email}</span>
+          </div>
+        ) : null}
         <FloatingInput label="Todo Body" value={todoBody} onChange={(e) => setTodoBody(e.target.value)} />
         <FloatingInput label="Todo Priority" value={todoPriority} onChange={(e) => setTodoPriority(e.target.value)} />
         <Button onClick={() => createTodo({

@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ builder.Services.AddAuthentication()
     .AddBearerToken(IdentityConstants.BearerScheme)
     .AddIdentityCookies();
     
+    
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("ApiScope", policy => {
@@ -39,6 +41,7 @@ builder.Services.AddAuthorizationBuilder()
         policy.AddAuthenticationSchemes(IdentityConstants.BearerScheme);
     });
 
+// Add First name and Last name to Register Fields
 builder.Services.AddIdentityCore<UserModel>(options => {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
@@ -49,7 +52,9 @@ builder.Services.AddIdentityCore<UserModel>(options => {
 })
     .AddEntityFrameworkStores<DataContext>()
     .AddApiEndpoints()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddSignInManager<SignInManager<UserModel>>()
+    .AddUserManager<UserManager<UserModel>>();
 
 var app = builder.Build();
 
@@ -77,6 +82,11 @@ var group = app.MapGroup("/api/v1");
 group
     .MapGroup("/auth")
     .MapIdentityApi<UserModel>();
+
+
+group.MapGet("/auth/logout", ctx => 
+    ctx.SignOutAsync(IdentityConstants.BearerScheme)
+);
 
 app.UseCors("CorsPolicy");
 
