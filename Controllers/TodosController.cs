@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Azure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,10 +40,18 @@ namespace project.Controllers {
             return Ok(todo);
         }
 
-
         [HttpPost]
         [Authorize("ApiScope")]
         public IActionResult CreateTodo([FromBody] Todo todo) {
+
+            // get the user id from the access token
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // set the user id on the todo
+
+            if (userId != null) {
+                todo.UserId = userId;
+            }
 
             bool todoExists = dataContext.Todo.Find(todo.TodoId) != null;
 

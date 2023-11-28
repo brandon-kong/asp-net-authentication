@@ -9,6 +9,7 @@ import { Button } from '@/components/button';
 import { getAuthenticatedAxiosInstance } from '@/lib/authentication';
 
 import { useAuth } from '@/components/providers/AuthProvider';
+import Link from 'next/link';
 
 export default function Home() {
   const [todoBody, setTodoBody] = useState('');
@@ -114,7 +115,12 @@ export default function Home() {
               callbackUrl: '/'
             })}>Logout</Button>
           </div>
-        ) : null}
+        ) : (
+          <div>
+            <h1>Log in</h1>
+            <Link href="/login">Login</Link>
+          </div>
+        )}
         <FloatingInput label="Todo Body" value={todoBody} onChange={(e) => setTodoBody(e.target.value)} />
         <FloatingInput label="Todo Priority" value={todoPriority} onChange={(e) => setTodoPriority(e.target.value)} />
         <Button onClick={() => createTodo({

@@ -6,7 +6,7 @@ import { InputProps, InputWithLabelProps } from '@/types/input/types'
 import { TypographyP } from '../typography'
 
 export function Input (props: InputProps) {
-    const { className, withLabel, ...rest } = props
+    const { className, withLabel=false, ...rest } = props
     return (
         <div className={classNames(
             "flex flex-col w-full",
@@ -29,10 +29,6 @@ export function Input (props: InputProps) {
 }
 
 // default props
-
-Input.defaultProps = {
-    withLabel: false,
-}
 
 export function PasswordInput (props: InputProps) {
     return (

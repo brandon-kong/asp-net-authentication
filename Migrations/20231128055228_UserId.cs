@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace project.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityUser : Migration
+    public partial class UserId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,6 +51,21 @@ namespace project.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Todo",
+                columns: table => new
+                {
+                    TodoId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TodoBody = table.Column<string>(type: "text", nullable: false),
+                    TodoPriority = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Todo", x => x.TodoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -214,6 +229,9 @@ namespace project.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Todo");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

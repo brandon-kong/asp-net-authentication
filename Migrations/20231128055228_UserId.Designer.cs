@@ -12,8 +12,8 @@ using project.Data;
 namespace project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231127035754_IdentityUser")]
-    partial class IdentityUser
+    [Migration("20231128055228_UserId")]
+    partial class UserId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -242,6 +242,9 @@ namespace project.Migrations
                     b.Property<string>("TodoPriority")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("TodoId");
 
